@@ -1,25 +1,37 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-vector<int> M(11);
-void test(int i, int k, int sum, int n) {
-	for (int j = k; j >= 1; j--) {
-		if (sum + j <= n) {
-			M[i] = j;
-			if (sum + j == n) {
-				cout << "(";
-				for (int l = 1; l < i; l++)cout << M[l] << " ";
-				cout << M[i] << ") ";
+int a;
+vector<int>ds;
+void Sinh(int x,int y)
+{
+	for(int j = x;j>=1;j--)
+	{
+		if(y-j>=0)
+		{
+			ds.push_back(j);
+			if(y-j==0)
+			{
+				cout<<"(";
+				for(int p = 0;p<ds.size()-1;p++)
+					cout<<ds[p]<<" ";
+				cout<<ds[ds.size()-1]<<") ";
 			}
-			else test(i + 1, j, sum + j, n);
+			if(y-j>0)
+				Sinh(j,y-j);
+			ds.pop_back();
 		}
 	}
 }
-int main() {
-	int t; cin >> t;
-	while (t--) {
-		int n; cin >> n;
-		test(1, n, 0, n);
-		cout << endl;
+int main()
+{
+	int n;
+	cin>>n;
+	while(n--)
+	{	
+		ds.clear();
+		cin>>a;
+		Sinh(a,a);
+		cout<<endl;
 	}
 }
