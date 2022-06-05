@@ -1,48 +1,39 @@
-#include<bits/stdc++.h>
-#define mod              1000000007
-#define ll               long long
-#define	p(x)             pair<x,x>
-#define v(x)             vector<x>
-#define tree             node*
-#define sz(a)            a.size()
-#define f                first
-#define s                second
-#define pb(a)            push_back(a)
-#define pf(a)            push_front(a)
-#define FOR(i,l,r)       for(int i=l;i<r;i++)
-#define FORX(i,l,r,x)    for(int i=l;i<r;i+=x)
-#define FORD(i,l,r)      for(int i=l;i>=r;i--)
-#define correct(x,y,n,m) 0<=(x)&&(x)<(n)&&0<=(y)&&(y)<(m)
-#define cin(M,n)         FOR(i,0,n)cin>>M[i]
-#define cout(M,n)        FOR(i,0,n)cout<<M[i]<<" "
-#define rs(M,x)          memset(M,x,sizeof(M))
-#define reset()          FOR(i, 0, 1001)A[i].clear(),check[i]=false
-#define faster()         cin.tie(0); ios_base::sync_with_stdio(false); cout.tie(0);
-#define run()            int t; cin >> t; while (t--)
-#define pq(x)            priority_queue<x>
-#define neg_pq(x)        priority_queue<x, vector<x>, greater<x>>
-#define all(M)           M.begin(),M.end()
+#include<iostream>
+#include<climits>
 using namespace std;
-
-//_______________________NGUYỄN_NGỌC_TOÀN_______________________//
-
-int main() {
-	faster();
-	int n, s; cin >> n >> s;
-	v(int) N(n), W(n);
-	cin(N, n); cin(W, n);
-	int sum = 0;
-	string res;
-	FOR(i, 0, pow(2, n)) {
-		auto x = bitset<20>(i).to_string();
-		x = x.substr(20 - n, n);
-		int sumn = 0, sumw = 0;
-		FOR(i, 0, n)if (x[i] == '1')sumn += N[i], sumw += W[i];
-		if (sumw <= s && sumn >= sum)sum = sumn, res = x;
+int a,b,temp=0,v[100]={},w[100],g[100]={},pa[100]={},cmax=0,kl=0;
+void Sinh(int i)
+{
+	for(int j = 0;j<=1;j++)
+	{
+		g[i]=j;
+		temp+=v[i]*j;
+		kl+=w[i]*j;
+		if(i==a-1)
+		{
+			if(temp>cmax && kl<=b)
+			{
+				cmax=temp;
+				for(int x = 0;x<a;x++)
+					pa[x]=g[x];
+			}
+		}
+		else
+			if(b)
+				Sinh(i+1);
+		temp-=v[i]*j;
+		kl-=w[i]*j;
 	}
-	cout << sum << endl;
-	cout(res, n);
 }
-
-
-//_________________________B20DCPT173__________________________//
+int main()
+{
+	cin>>a>>b;
+	for(int i = 0;i<a;i++)
+		cin>>v[i];
+	for(int i = 0;i<a;i++)
+		cin>>w[i];
+	Sinh(0);
+	cout<<cmax<<endl;
+	for(int i = 0;i<a;i++)	
+		cout<<pa[i]<<" "; 
+}
