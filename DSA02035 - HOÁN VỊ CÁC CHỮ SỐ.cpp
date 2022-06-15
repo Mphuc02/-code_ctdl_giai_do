@@ -1,49 +1,45 @@
-#include<bits/stdc++.h>
-#define mod              1000000007
-#define ll               long long
-#define	p(x)             pair<x,x>
-#define v(x)             vector<x>
-#define tree             node*
-#define sz(a)            a.size()
-#define f                first
-#define s                second
-#define pb(a)            push_back(a)
-#define pf(a)            push_front(a)
-#define FOR(i,l,r)       for(int i=l;i<r;i++)
-#define FORX(i,l,r,x)    for(int i=l;i<r;i+=x)
-#define FORD(i,l,r)      for(int i=l;i>=r;i--)
-#define correct(x,y,n,m) 0<=(x)&&(x)<(n)&&0<=(y)&&(y)<(m)
-#define cin(M,n)         FOR(i,0,n)cin>>M[i]
-#define cout(M,n)        FOR(i,0,n)cout<<M[i]
-#define rs(M,x)          memset(M,x,sizeof(M))
-#define reset()          FOR(i, 0, 1001)A[i].clear(),check[i]=false
-#define faster()         cin.tie(0); ios_base::sync_with_stdio(false); cout.tie(0);
-#define run()            int t; cin >> t; while (t--)
-#define pq(x)            priority_queue<x>
-#define neg_pq(x)        priority_queue<x, vector<x>, greater<x>>
-#define all(M)           M.begin(),M.end()
+#include<iostream>
+#include<vector>
+#include<climits>
 using namespace std;
+int a,b,f[100]={},chuaxet[100]={},cmin=INT_MAX;
+vector<string>ds(100);
+void Sinh(int i)
+{
+    for(int j = 0;j<b;j++)
+    {
+        if(!chuaxet[j])
+        {
+            f[i]=j;
+            chuaxet[j]=1;
+            if(i==b-1)
+            {
+                int test1=INT_MAX,test2=0;
+                for(int x = 0;x<a;x++)
+                {
+                    int test3=0;
+                    for(int y = 0;y<b;y++)
+                    {
+                        test3=test3*10+ds[x][f[y]]-'0';
+                    }
 
-//_______________________NGUYỄN_NGỌC_TOÀN_______________________//
-
-int main() {
-	faster();
-	int k, n; cin >> k >> n;
-	v(string) S(k); cin(S, k);
-	v(int) M(n);
-	iota(all(M), 0);
-	int res = INT_MAX;
-	do {
-		int minn = INT_MAX, maxx = INT_MIN;
-		for (auto s : S) {
-			string x;
-			FOR(i, 0, n)x += s[M[i]];
-			minn = min(minn, stoi(x));
-			maxx = max(maxx, stoi(x));
-		}
-		res = min(res, maxx - minn);
-	} while (next_permutation(all(M)));
-	cout << res << endl;
+                    test1=min(test1,test3);
+                    test2=max(test2,test3);
+                }
+                if(test2-test1!=0)
+                        cmin=min(cmin,test2-test1);
+            }
+            else
+                Sinh(i+1);
+            chuaxet[j]=0;
+        }
+    }
 }
-
-//__________________________B20DCPT173__________________________//
+int main()
+{
+    cin>>a>>b;
+    for(int i = 0;i<a;i++)
+        cin>>ds[i];
+    Sinh(0);
+    cout<<cmin;
+}
