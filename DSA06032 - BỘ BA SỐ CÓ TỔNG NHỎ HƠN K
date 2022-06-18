@@ -1,21 +1,39 @@
 #include<iostream>
-#include<set>
-#include<climits>
 #include<algorithm>
-#include<vector>
 using namespace std;
-typedef long long ll;
-int main() {
-	int t; cin >> t;
-	while (t--) {
-		int n, k; cin >> n >> k;
-		ll M[100000];
-		for (int i = 0; i < n; i++)cin >> M[i];
-		sort(M, M + n);
-		ll res = 0;
-		for (int i = 0; i < n - 2; i++)
-			for (int j = i + 1; j < n - 1; j++)
-				res += lower_bound(M + j + 1, M + n, k - M[i] - M[j])-M-j-1;
-		cout << res << endl;
-	}
+
+int main()
+{
+    int n;
+    cin>>n;
+    while(n--)
+    {
+        long long a,b;
+        cin>>a>>b;
+        long long f[a],dem=0;
+        for(long long &i:f)
+            cin>>i;
+        sort(f,f+a);
+        for(long long i = 0;i<a;i++ )
+        {
+            for(long long j = i+1;j<a;j++)
+            {
+                long long l = j + 1,r = a-1, t = -1;
+                while(l<=r)
+                {
+                    long long m = (l+r)/2;
+                    if(b-f[i]-f[j]>f[m])
+                    {
+                        t=m;
+                        l=m+1;
+                    }
+                    else
+                        r=m-1;
+                }
+                if(t!=-1)
+                    dem+=t-j;
+            }
+        }
+        cout<<dem<<endl;
+    }
 }
